@@ -14,35 +14,42 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ month, week, day, view
   
   if (viewState === 'month') {
     return (
-      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="mb-8">
-          <h2 className="text-sm font-mono tracking-widest text-emerald-500 mb-1">MONTH {month.monthNumber}</h2>
-          <h1 className="text-3xl font-bold tracking-tight text-white mb-3">{month.title}</h1>
-          <p className="text-slate-400 text-lg">{month.description}</p>
+      <div className="animate-in fade-in flex flex-col gap-6 max-w-5xl mx-auto">
+        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h2 className="text-xs font-bold text-blue-500 mb-1 tracking-widest uppercase">Month {month.monthNumber}</h2>
+          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">{month.title}</h1>
+          <p className="text-slate-500 text-sm">{month.description}</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div className="p-6 rounded-xl bg-slate-800/50 border border-slate-700">
-            <div className="flex items-center mb-4">
-              <Briefcase className="w-5 h-5 text-purple-400 mr-2" />
-              <h3 className="text-lg font-semibold text-slate-100">Portfolio Project</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-8 bg-blue-600 rounded-xl p-8 text-white shadow-lg flex flex-col justify-center">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+                <Briefcase size={24} />
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest opacity-80 mb-1">Portfolio Project</div>
+                <h3 className="text-xl font-bold">{month.portfolioProject.title}</h3>
+              </div>
             </div>
-            <h4 className="text-md font-medium text-white mb-2">{month.portfolioProject.title}</h4>
-            <p className="text-sm text-slate-300 mb-4">{month.portfolioProject.description}</p>
-            <div className="mb-4">
-              <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Architecture</h5>
+            
+            <p className="text-sm opacity-90 mb-6 leading-relaxed bg-white/10 p-4 rounded-lg">{month.portfolioProject.description}</p>
+            
+            <div className="mb-6">
+              <h5 className="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-2">Architecture & Tech</h5>
               <div className="flex flex-wrap gap-2">
-                {month.portfolioProject.architecture.map((item, idx) => (
-                  <span key={idx} className="px-2 py-1 text-xs rounded bg-slate-900 border border-slate-700 text-slate-300">{item}</span>
+                {[...month.portfolioProject.architecture, ...month.portfolioProject.techStack].map((item, idx) => (
+                  <span key={idx} className="px-2 py-1 text-[10px] font-bold rounded bg-white/10 text-white uppercase">{item}</span>
                 ))}
               </div>
             </div>
+            
             <div>
-              <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-2">Requirements</h5>
+              <h5 className="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-2">Requirements</h5>
               <ul className="space-y-2">
                 {month.portfolioProject.requirements.map(req => (
-                  <li key={req.id} className="flex items-start text-sm text-slate-300">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 mr-2 mt-0.5 shrink-0" />
+                  <li key={req.id} className="flex items-start text-sm opacity-90">
+                    <CheckCircle2 className="w-4 h-4 text-blue-200 mr-2 shrink-0 mt-0.5" />
                     <span>{req.description}</span>
                   </li>
                 ))}
@@ -50,24 +57,28 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ month, week, day, view
             </div>
           </div>
 
-          <div className="p-6 rounded-xl bg-slate-800/50 border border-slate-700">
-            <h3 className="text-lg font-semibold text-slate-100 mb-4">Monthly Assessment</h3>
-            <div className="space-y-4">
+          <div className="lg:col-span-4 bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col">
+            <h3 className="text-sm font-bold text-slate-900 mb-4 tracking-tight flex items-center gap-2">
+              Monthly Assessment
+            </h3>
+            <div className="space-y-4 flex-1">
               <div>
-                <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Engineering Review</h5>
-                <p className="text-sm text-slate-300">{month.monthlyReview.engineeringReview}</p>
+                <h5 className="text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-widest">Engineering Review</h5>
+                <p className="text-sm text-slate-700 font-medium leading-relaxed">{month.monthlyReview.engineeringReview}</p>
               </div>
+              <div className="h-px w-full bg-slate-100 my-2"></div>
               <div>
-                <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Architecture Review</h5>
-                <p className="text-sm text-slate-300">{month.monthlyReview.architectureReview}</p>
+                <h5 className="text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-widest">Architecture Review</h5>
+                <p className="text-sm text-slate-700 font-medium leading-relaxed">{month.monthlyReview.architectureReview}</p>
               </div>
-              <div className="pt-4 border-t border-slate-700">
-                <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Mock Interview</h5>
-                <p className="text-sm text-blue-300">{month.monthlyReview.mockInterview}</p>
+              <div className="h-px w-full bg-slate-100 my-2"></div>
+              <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                <h5 className="text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-widest">Mock Interview</h5>
+                <p className="text-sm text-blue-600 font-bold">{month.monthlyReview.mockInterview}</p>
               </div>
-              <div>
-                <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Technical Assessment</h5>
-                <p className="text-sm text-emerald-400 font-mono">{month.monthlyReview.technicalAssessment}</p>
+              <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                <h5 className="text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-widest">Tech Assessment</h5>
+                <p className="text-sm text-slate-900 font-bold">{month.monthlyReview.technicalAssessment}</p>
               </div>
             </div>
           </div>
@@ -78,35 +89,39 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ month, week, day, view
 
   if (viewState === 'week' && week) {
     return (
-      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="mb-6 flex items-center text-sm text-slate-400 font-mono uppercase tracking-widest">
+      <div className="animate-in fade-in flex flex-col gap-6 max-w-5xl mx-auto">
+        <div className="flex items-center text-[10px] text-slate-400 font-bold uppercase tracking-widest gap-2">
           <span>Month {month.monthNumber}</span>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <span className="text-emerald-500">Week {week.weekNumber}</span>
+          <ChevronRight className="w-3 h-3 text-slate-300" />
+          <span className="text-blue-500">Week {week.weekNumber}</span>
         </div>
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold tracking-tight text-white mb-2">{week.title}</h1>
-          <p className="text-slate-400">{week.theme}</p>
+        
+        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">{week.title}</h1>
+          <p className="text-slate-500 text-sm font-medium">{week.theme}</p>
         </div>
 
-        <div className="p-6 rounded-xl bg-slate-800/50 border border-slate-700 mb-8">
-          <h3 className="text-lg font-semibold text-slate-100 mb-4">Weekly Engineering Review</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Practical</h5>
-              <p className="text-sm text-slate-300">{week.review.practical}</p>
+        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col">
+          <h3 className="text-sm font-bold text-slate-900 mb-4 tracking-tight">Weekly Engineering Review</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+              <h5 className="text-[10px] font-bold text-slate-500 mb-2 uppercase tracking-widest">Practical Implementation</h5>
+              <p className="text-sm text-slate-700 font-medium leading-relaxed">{week.review.practical}</p>
             </div>
-            <div>
-              <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Project & Debugging</h5>
-              <p className="text-sm text-slate-300">{week.review.project} <br/><span className="text-slate-400 italic text-xs mt-1 block">Fixes: {week.review.debugging}</span></p>
+            <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+              <h5 className="text-[10px] font-bold text-slate-500 mb-2 uppercase tracking-widest">Project & Debugging</h5>
+              <p className="text-sm text-slate-700 font-medium leading-relaxed">{week.review.project}</p>
+              <div className="mt-3 text-[10px] font-bold text-orange-700 bg-orange-100 inline-block px-2 py-1 rounded border border-orange-200 uppercase tracking-widest">
+                Fixes: {week.review.debugging}
+              </div>
             </div>
-            <div>
-              <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Interview Prep</h5>
-              <p className="text-sm text-emerald-400">{week.review.interviewPrep}</p>
+            <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+              <h5 className="text-[10px] font-bold text-slate-500 mb-2 uppercase tracking-widest">Interview Prep</h5>
+              <p className="text-sm text-blue-600 font-bold leading-relaxed">{week.review.interviewPrep}</p>
             </div>
-            <div>
-              <h5 className="text-xs uppercase tracking-wider text-slate-500 mb-1">Assessment</h5>
-              <p className="text-sm text-blue-300">{week.review.assessment}</p>
+            <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+              <h5 className="text-[10px] font-bold text-slate-500 mb-2 uppercase tracking-widest">Assessment</h5>
+              <p className="text-sm text-slate-800 font-medium leading-relaxed">{week.review.assessment}</p>
             </div>
           </div>
         </div>
@@ -116,22 +131,27 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ month, week, day, view
 
   if (viewState === 'day' && week && day) {
     return (
-      <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 max-w-4xl">
-        <div className="mb-6 flex items-center text-sm text-slate-400 font-mono uppercase tracking-widest flex-wrap gap-y-2">
-          <span>Month {month.monthNumber}</span>
-          <ChevronRight className="w-4 h-4 mx-2 text-slate-600" />
-          <span>Week {week.weekNumber}</span>
-          <ChevronRight className="w-4 h-4 mx-2 text-slate-600" />
-          <span className="text-emerald-500">Day {day.dayNumber}</span>
-        </div>
-        <div className="mb-8 border-b border-slate-800 pb-6">
-          <h1 className="text-2xl font-semibold tracking-tight text-white mb-2">{day.title}</h1>
-          <p className="text-slate-400">Focus: <span className="text-slate-300 font-medium">{day.focus}</span></p>
-        </div>
+      <div className="animate-in fade-in flex flex-col gap-6 max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex-1">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6 pb-6 border-b border-slate-100">
+            <div>
+              <div className="flex items-center text-[10px] text-slate-400 font-bold uppercase tracking-widest gap-2 mb-3">
+                <span>Month {month.monthNumber}</span>
+                <ChevronRight className="w-3 h-3 text-slate-300" />
+                <span>Week {week.weekNumber}</span>
+                <ChevronRight className="w-3 h-3 text-slate-300" />
+                <span className="text-blue-500">Day {day.dayNumber}</span>
+              </div>
+              <h2 className="text-2xl font-bold text-slate-900">{day.title}</h2>
+              <p className="text-slate-500 text-sm mt-1 font-medium">Focus: {day.focus}</p>
+            </div>
+            <div className="md:text-right hidden sm:block">
+              <div className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Tasks</div>
+              <div className="text-xl font-bold text-slate-900">{day.tasks.length}</div>
+            </div>
+          </div>
 
-        <div className="space-y-4">
-          <h3 className="text-lg font-medium text-slate-200 mb-4 hidden">Engineering Tasks</h3>
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+          <div className="space-y-4">
             {day.tasks.map(task => (
               <TaskItem key={task.id} task={task} />
             ))}

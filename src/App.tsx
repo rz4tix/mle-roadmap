@@ -65,19 +65,21 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-300 font-sans flex selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex selection:bg-blue-500/30 overflow-hidden">
       
       {/* Sidebar Navigation */}
-      <aside className="w-80 border-r border-slate-800 bg-slate-950/50 flex flex-col shrink-0 overflow-hidden sticky top-0 max-h-screen z-10 transition-all hidden md:flex">
-        <div className="p-6 border-b border-slate-800 shrink-0">
-          <div className="flex items-center gap-3 text-emerald-400 mb-2">
-            <Rocket size={20} />
-            <h1 className="font-bold text-lg tracking-wide uppercase text-white">MLE Intensive</h1>
+      <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col shrink-0 overflow-hidden h-screen z-10 transition-all hidden md:flex">
+        <div className="p-6 shrink-0 border-b border-slate-800/50">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center font-bold text-white shrink-0">
+              <Rocket size={18} />
+            </div>
+            <h1 className="font-bold text-lg tracking-wide uppercase text-white truncate">MLE Intensive</h1>
           </div>
-          <p className="text-xs text-slate-500 font-mono leading-relaxed mt-3">PRO ROADMAP EXPLORER v1.0.0</p>
+          <p className="text-xs text-slate-500 font-semibold uppercase tracking-widest leading-relaxed">Phase Roadmap</p>
         </div>
 
-        <div className="overflow-y-auto flex-1 p-4 custom-scrollbar">
+        <div className="overflow-y-auto flex-1 px-4 py-4 custom-scrollbar">
           {roadmap.months.map((month, mIdx) => {
             const isMonthExpanded = expandedMonths.has(mIdx);
             const isMonthSelected = selectedMonthIndex === mIdx && viewState === 'month';
@@ -86,7 +88,7 @@ export default function App() {
               <div key={month.monthNumber} className="mb-1">
                 <div 
                   className={`flex justify-between items-center px-3 py-2.5 rounded-md cursor-pointer transition-colors ${
-                    isMonthSelected ? 'bg-emerald-500/10 text-emerald-400' : 'hover:bg-slate-800/50 text-slate-300'
+                    isMonthSelected ? 'bg-blue-600 text-white font-medium shadow-sm' : 'hover:bg-slate-800 text-slate-300'
                   }`}
                   onClick={() => handleMonthClick(mIdx)}
                 >
@@ -109,7 +111,7 @@ export default function App() {
                         <div key={week.weekNumber}>
                           <div 
                             className={`flex justify-between items-center px-3 py-2 rounded-md cursor-pointer transition-colors text-sm ${
-                              isWeekSelected ? 'bg-slate-800 text-white' : 'hover:bg-slate-800/50 text-slate-400'
+                              isWeekSelected ? 'bg-slate-800 text-white font-medium' : 'hover:bg-slate-800/50 text-slate-400'
                             }`}
                             onClick={() => handleWeekClick(mIdx, wIdx)}
                           >
@@ -130,7 +132,7 @@ export default function App() {
                                     key={day.dayNumber}
                                     onClick={() => handleDayClick(mIdx, wIdx, dIdx)}
                                     className={`px-3 py-1.5 rounded text-xs cursor-pointer truncate transition-colors ${
-                                      isDaySelected ? 'bg-slate-800/80 text-emerald-400 font-medium' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/30'
+                                      isDaySelected ? 'bg-blue-600/20 text-blue-400 font-medium' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/30'
                                     }`}
                                   >
                                     Day {day.dayNumber}: {day.title}
@@ -151,22 +153,43 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto max-h-screen CustomScroll p-6 lg:p-12 relative w-full">
-        {/* Mobile Navbar Substitute Placeholder */}
-        <div className="md:hidden flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
-           <div className="flex items-center gap-2 text-emerald-400">
-            <Rocket size={18} />
-            <span className="font-bold tracking-wide uppercase text-white text-sm">MLE Intensive</span>
+      <main className="flex-1 overflow-y-auto h-screen CustomScroll relative w-full flex flex-col">
+        {/* Top Bar for Desktop */}
+        <header className="hidden md:flex h-16 bg-white border-b border-slate-200 items-center justify-between px-8 shrink-0 sticky top-0 z-10 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="text-sm font-medium text-slate-500 tracking-wide">
+              M{selectedMonth.monthNumber} / {selectedWeek ? `W${selectedWeek.weekNumber}` : 'Roadmap Overview'} {selectedDay ? <>/ <span className="text-slate-900 font-bold">D{selectedDay.dayNumber}</span></> : ''}
+            </div>
+            <span className="bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">High Intensity</span>
           </div>
-          <span className="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded">View Mode: {viewState}</span>
-        </div>
+          <div className="flex items-center gap-6">
+            <div className="flex gap-2 items-center">
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Sys Active</span>
+            </div>
+            <button className="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded shadow-sm hover:bg-slate-800 transition-colors">INITIATE NEXT</button>
+          </div>
+        </header>
 
-        <ContentArea 
-          month={selectedMonth}
-          week={selectedWeek}
-          day={selectedDay}
-          viewState={viewState}
-        />
+        {/* Mobile Navbar Substitute Placeholder */}
+        <div className="md:hidden flex items-center justify-between p-6 bg-slate-900 border-b border-slate-800 shrink-0 sticky top-0 z-20">
+           <div className="flex items-center gap-3 text-white">
+            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center shrink-0">
+              <Rocket size={16} />
+            </div>
+            <span className="font-bold tracking-wide uppercase text-sm">MLE Intensive</span>
+          </div>
+          <span className="text-xs font-bold text-slate-300 bg-slate-800 px-3 py-1.5 rounded uppercase tracking-wider">{viewState}</span>
+        </div>
+        
+        <div className="p-6 md:p-8 lg:p-10 flex-1">
+          <ContentArea 
+            month={selectedMonth}
+            week={selectedWeek}
+            day={selectedDay}
+            viewState={viewState}
+          />
+        </div>
       </main>
 
     </div>
